@@ -2,7 +2,7 @@
 
 
 DEPLOYED LINK: https://blueblock-buster.onrender.com/
-
+*Deployed on Render, free-instance takes some time to load*
 
 - npm install
 - modify connection string
