@@ -4,29 +4,29 @@ import { Loader } from "@googlemaps/js-api-loader";
 const Addresses = ({ addresses, createAddress })=> {
   const el = useRef();
 
-  // useEffect(()=> {
-  //   const setup = async()=> {
-  //     const loader = new Loader({
-  //       apiKey: window.GOOGLE_API,
-  //     });
-  //    await loader.load();
-  //    const { Autocomplete } = await google.maps.importLibrary("places");
-  //     const options = {
-  //       fields: [
-  //         'formatted_address',
-  //         'geometry'
-  //       ]
-  //     };
-  //     const autocomplete = new Autocomplete(el.current, options);
-  //     autocomplete.addListener('place_changed', async()=> {
-  //       const place = autocomplete.getPlace();
-  //       const address = { data: place };
-  //       await createAddress(address); 
-  //       el.current.value = '';
-  //     });
-  //   }
-  //   setup();
-  // }, []);
+  useEffect(()=> {
+    const setup = async()=> {
+      const loader = new Loader({
+        apiKey: window.GOOGLE_API,
+      });
+     await loader.load();
+     const { Autocomplete } = await google.maps.importLibrary("places");
+      const options = {
+        fields: [
+          'formatted_address',
+          'geometry'
+        ]
+      };
+      const autocomplete = new Autocomplete(el.current, options);
+      autocomplete.addListener('place_changed', async()=> {
+        const place = autocomplete.getPlace();
+        const address = { data: place };
+        await createAddress(address); 
+        el.current.value = '';
+      });
+    }
+    setup();
+  }, []);
   return (
     <div>
       <h3>Addresses</h3>
