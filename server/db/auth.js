@@ -14,7 +14,7 @@ const findUserByToken = async(token) => {
     `;
     const response = await client.query(SQL, [payload.id]);
     if(!response.rows.length){
-      const error = Error('bad credentials');
+      const error = Error('Invalid Credentials');
       error.status = 401;
       throw error;
     }
@@ -23,7 +23,7 @@ const findUserByToken = async(token) => {
   }
   catch(ex){
     console.log(ex);
-    const error = Error('bad credentials');
+    const error = Error('Invalid Credentials');
     error.status = 401;
     throw error;
   }
@@ -37,13 +37,13 @@ const authenticate = async(credentials)=> {
   `;
   const response = await client.query(SQL, [credentials.username]);
   if(!response.rows.length){
-    const error = Error('bad credentials');
+    const error = Error('Invalid Credentials');
     error.status = 401;
     throw error;
   }
   const valid = await bcrypt.compare(credentials.password, response.rows[0].password);
   if(!valid){
-    const error = Error('bad credentials');
+    const error = Error('Invalid Credentials');
     error.status = 401;
     throw error;
   }
