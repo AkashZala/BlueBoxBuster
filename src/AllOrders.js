@@ -9,9 +9,9 @@ const AllOrders = ({ allOrders, products, allLineItems, allAddresses }) => {
 
     return (
         <div>
-            {/* <div id='shipMap'>
+            <div id='shipMap'>
             <ShipMap allAddresses={allAddresses} allOrders={allOrders}/>
-            </div> */}
+            </div>
         <div className="container">      
             <div className="mainPage allOrders">
                 <h1>ALL ORDERS</h1>
