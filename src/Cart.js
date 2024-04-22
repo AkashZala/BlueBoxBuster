@@ -5,6 +5,22 @@ const Cart = ({ updateOrder, removeFromCart, lineItems, cart, products, cartCoun
   const [shipping, setShipping] = useState('');
   const el = useRef();
 
+  useEffect(()=> {
+    const options = {
+          fields: [
+            'formatted_address',
+            'geometry'
+          ]
+  };
+       const autocomplete = new google.maps.places.Autocomplete(el.current, options);
+        autocomplete.addListener('place_changed', async()=> {
+          const place = autocomplete.getPlace();
+          const address = { data: place };
+          await createAddress(address); 
+          el.current.value = '';
+        });
+      }, []);
+
   let totalPrice = 0;
   cartItems.forEach(lineItem => {
     const product = products.find(product => product.id === lineItem.product_id)
@@ -16,29 +32,6 @@ const Cart = ({ updateOrder, removeFromCart, lineItems, cart, products, cartCoun
     updateOrder(newOrder);
   }
 
-  useEffect(()=> {
-    const setup = async()=> {
-      const loader = new Loader({
-        apiKey: window.GOOGLE_API,
-      });
-     await loader.load();
-     const { Autocomplete } = await google.maps.importLibrary("places");
-      const options = {
-        fields: [
-          'formatted_address',
-          'geometry'
-        ]
-      };
-      const autocomplete = new Autocomplete(el.current, options);
-      autocomplete.addListener('place_changed', async()=> {
-        const place = autocomplete.getPlace();
-        const address = { data: place };
-        await createAddress(address); 
-        el.current.value = '';
-      });
-    }
-    setup();
-  }, []);
 
   return (
     <div className='container'>
@@ -85,6 +78,8 @@ const Cart = ({ updateOrder, removeFromCart, lineItems, cart, products, cartCoun
               })
             }
           </select>
+          <h3>Add New Shipping Address</h3>
+          <input ref={ el } />
           <br/>
           {
             lineItems.filter(lineItem => lineItem.order_id === cart.id ).length ? 
